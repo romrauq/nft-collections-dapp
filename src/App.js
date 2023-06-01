@@ -20,25 +20,22 @@ function App() {
 	// Create a reference to the Web3 Modal (used for connecting to Metamask) which persists as long as the page is open
 	const web3ModalRef = useRef();
 
-	/**
-	 * presaleMint: Mint an NFT during the presale
-	 */
+	// `presaleMint()` Mints an NFT during the presale
 	const presaleMint = async () => {
 		try {
 			// We need a Signer here since this is a 'write' transaction.
 			const signer = await getProviderOrSigner(true);
-			// Create a new instance of the Contract with a Signer, which allows
-			// update methods
+			// Create a new instance of the Contract with a Signer, which allows update methods
 			const nftContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
 			// call the presaleMint from the contract, only whitelisted addresses would be able to mint
 			const tx = await nftContract.presaleMint({
-				// value signifies the cost of one crypto dev which is "0.01" eth.
+				// `value` signifies the cost of one crypto dev which is "0.01" eth.
 				// We are parsing `0.01` string to ether using the utils library from ethers.js
 				value: utils.parseEther("0.01"),
 			});
 			setLoading(true);
-			// wait for the transaction to get mined
-			await tx.wait();
+
+			await tx.wait(); // wait for the transaction to get mined
 			setLoading(false);
 			window.alert("You successfully minted a Crypto Dev!");
 		} catch (err) {
@@ -46,9 +43,7 @@ function App() {
 		}
 	};
 
-	/**
-	 * publicMint: Mint an NFT after the presale
-	 */
+	// `publicMint()`: Mints an NFT after the presale
 	const publicMint = async () => {
 		try {
 			// We need a Signer here since this is a 'write' transaction.
@@ -72,9 +67,7 @@ function App() {
 		}
 	};
 
-	/*
-      connectWallet: Connects the MetaMask wallet
-    */
+	// `connectWallet()`: Connects the MetaMask wallet
 	const connectWallet = async () => {
 		try {
 			// Get the provider from web3Modal, which in our case is MetaMask
@@ -86,9 +79,7 @@ function App() {
 		}
 	};
 
-	/**
-	 * startPresale: starts the presale for the NFT Collection
-	 */
+	// `startPresale()`: starts the presale for the NFT Collection
 	const startPresale = async () => {
 		try {
 			// We need a Signer here since this is a 'write' transaction.
@@ -109,10 +100,7 @@ function App() {
 		}
 	};
 
-	/**
-	 * checkIfPresaleStarted: checks if the presale has started by querying the `presaleStarted`
-	 * variable in the contract
-	 */
+	// `checkIfPresaleStarted()`: checks if the presale has started by querying the `presaleStarted` variable in the contract
 	const checkIfPresaleStarted = async () => {
 		try {
 			// Get the provider from web3Modal, which in our case is MetaMask
@@ -134,10 +122,7 @@ function App() {
 		}
 	};
 
-	/**
-	 * checkIfPresaleEnded: checks if the presale has ended by querying the `presaleEnded`
-	 * variable in the contract
-	 */
+	// checkIfPresaleEnded: checks if the presale has ended by querying the `presaleEnded` variable in the contract
 	const checkIfPresaleEnded = async () => {
 		try {
 			// Get the provider from web3Modal, which in our case is MetaMask
@@ -165,9 +150,7 @@ function App() {
 		}
 	};
 
-	/**
-	 * getOwner: calls the contract to retrieve the owner
-	 */
+	// getOwner: calls the contract to retrieve the owner
 	const getOwner = async () => {
 		try {
 			// Get the provider from web3Modal, which in our case is MetaMask
@@ -190,9 +173,7 @@ function App() {
 		}
 	};
 
-	/**
-	 * getTokenIdsMinted: gets the number of tokenIds that have been minted
-	 */
+	// getTokenIdsMinted: gets the number of tokenIds that have been minted
 	const getTokenIdsMinted = async () => {
 		try {
 			// Get the provider from web3Modal, which in our case is MetaMask
@@ -210,7 +191,7 @@ function App() {
 		}
 	};
 
-	/**
+	/*
 	 * Returns a Provider or Signer object representing the Ethereum RPC with or without the
 	 * signing capabilities of metamask attached
 	 *
@@ -222,6 +203,7 @@ function App() {
 	 *
 	 * @param {*} needSigner - True if you need the signer, default false otherwise
 	 */
+
 	const getProviderOrSigner = async (needSigner = false) => {
 		// Connect to Metamask
 		// Since we store `web3Modal` as a reference, we need to access the `current` value to get access to the underlying object
@@ -283,9 +265,7 @@ function App() {
 		}
 	}, [walletConnected]);
 
-	/*
-      renderButton: Returns a button based on the state of the dapp
-    */
+	// `renderButton()`: Returns a button based on the state of the dapp
 	const renderButton = () => {
 		// If wallet is not connected, return a button which allows them to connect their wallet
 		if (!walletConnected) {
@@ -358,11 +338,6 @@ function App() {
 
 	return (
 		<div>
-			{/* <Head>
-				<title>Crypto Devs</title>
-				<meta name="description" content="Whitelist-Dapp" />
-				<link rel="icon" href="/favicon.ico" />
-			</Head> */}
 			<div className="main">
 				<div>
 					<h1 className="title">Welcome to John's NFTs!</h1>
